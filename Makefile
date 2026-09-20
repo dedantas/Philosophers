@@ -1,21 +1,24 @@
 # ========== VARIABLES ==========
-NAME		= philo
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -pthread -g
-RM			= rm -f
-
-# ========== SOURCES ==========
-SRCS		= main.c utils.c init.c simulation.c actions.c cleanup.c
-OBJS		= $(SRCS:.c=.o)
+NAME            = philo
+CC              = cc
+SRCDIR          = src
+INCDIR          = includes
+CFLAGS          = -Wall -Wextra -Werror -pthread -g -I$(INCDIR)
+RM              = rm -f
 
 # ========== COLORS ==========
-RED			= \033[0;31m
-GREEN		= \033[0;32m
-YELLOW		= \033[0;33m
-BLUE		= \033[0;34m
-MAGENTA		= \033[0;35m
-CYAN		= \033[0;36m
-RESET		= \033[0m
+RED             = \033[0;31m
+GREEN           = \033[0;32m
+YELLOW          = \033[0;33m
+BLUE            = \033[0;34m
+MAGENTA         = \033[0;35m
+CYAN            = \033[0;36m
+RESET           = \033[0m
+
+# ========== SOURCES ==========
+SRCS            = main.c utils.c init.c simulation.c actions.c cleanup.c
+SRCS_PATH       = $(addprefix $(SRCDIR)/, $(SRCS))
+OBJS            = $(SRCS_PATH:.c=.o)
 
 # ========== RULES ==========
 all: $(NAME)
@@ -24,7 +27,7 @@ $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 	@echo "$(GREEN)✓ $(NAME) compiled successfully$(RESET)"
 
-%.o: %.c philo.h
+$(SRCDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/philo.h
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(CYAN)Compiling $<...$(RESET)"
 
